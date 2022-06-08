@@ -5,11 +5,12 @@ from django.conf import settings
 
 USER_MODEL = settings.AUTH_USER_MODEL
 
+
 # Create your models here.
 class Recipe(models.Model):
     name = models.CharField(max_length=125)
     author = models.ForeignKey(
-        USER_MODEL, related_name="recipes", on_delete=models.CASCADE
+        USER_MODEL, related_name="recipes", on_delete=models.CASCADE, null=True
     )
     description = models.TextField()
     image = models.URLField(null=True, blank=True)
@@ -17,7 +18,7 @@ class Recipe(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name + " by " + self.author
+        return self.name + " by " + str(self.author)
 
 
 class Measure(models.Model):
