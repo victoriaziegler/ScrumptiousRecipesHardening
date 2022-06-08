@@ -8,6 +8,8 @@ from recipes.forms import RatingForm
 
 from recipes.models import Recipe
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 def log_rating(request, recipe_id):
     if request.method == "POST":
@@ -44,6 +46,10 @@ class RecipeCreateView(CreateView):
     template_name = "recipes/new.html"
     fields = ["name", "author", "description", "image"]
     success_url = reverse_lazy("recipes_list")
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().for_valid(form)
 
 
 class RecipeUpdateView(UpdateView):
