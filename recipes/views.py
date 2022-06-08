@@ -49,13 +49,13 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().for_valid(form)
+        return super().form_valid(form)
 
 
 class RecipeUpdateView(LoginRequiredMixin, UpdateView):
     model = Recipe
     template_name = "recipes/edit.html"
-    fields = ["name", "author", "description", "image"]
+    fields = ["name", "description", "image"]
     success_url = reverse_lazy("recipes_list")
 
 
