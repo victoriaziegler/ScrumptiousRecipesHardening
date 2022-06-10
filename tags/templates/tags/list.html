@@ -22,6 +22,9 @@
 
 
 {% block content %}
+<header>
+  <a href="{% url 'tag_new' %}">Create New Tag</a>
+</header>
 <main class="recipe-grid">
   {% for tag in tag_list %}
   <div class="recipe-card">
