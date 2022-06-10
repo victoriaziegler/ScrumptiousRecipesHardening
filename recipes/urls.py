@@ -20,10 +20,10 @@ urlpatterns = [
     path("<int:pk>/edit/", RecipeUpdateView.as_view(), name="recipe_edit"),
     path("<int:recipe_id>/ratings/", log_rating, name="recipe_rating"),
     path(
-        "shopping_items/",
+        "shopping_item/",
         ShoppingItemListView.as_view(),
         name="shopping_item_list",
     ),
-    path("shopping_items/create/", create_item, name="shopping_item_create"),
-    path("shopping_items/delete/", delete_items, name="shopping_item_delete"),
+    path("shopping_item/create/", create_item, name="shopping_item_create"),
+    path("shopping_item/delete/", delete_items, name="shopping_item_delete"),
 ]
