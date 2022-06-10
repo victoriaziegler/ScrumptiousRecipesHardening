@@ -4,14 +4,14 @@
 <main>
     <h1>Your Shopping List</h1>
     <div>
-        <form method="POST" action="{% url 'shopping_item_delete' %}">
+        <form method="POST" action="{% url 'shopping_items_delete' %}">
             {% csrf_token %}
             <button class="button">Delete All</button>
         </form>
     </div>
     <ul>
         {% for item in shoppingitem_list %}
-        <li>{{ item.food_item.name }}</li>
+        <li>{{ item.food_item }}</li>
         {% endfor %}
     </ul>
 </main>

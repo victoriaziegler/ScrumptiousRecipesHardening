@@ -42,7 +42,7 @@
         <td>{{ ingredient.food.name }}</td>
         <td>
           {% if ingredient.food not in food_in_shopping_list %}
-          <form method="POST" action="{% url 'shopping_item_create' %}">
+          <form method="POST" action="{% url 'shopping_items_create' %}">
             {% csrf_token %}
             <input type="hidden" name="ingredient_id" value="{{ ingredient.id }}">
             <button>+ shopping list</button>

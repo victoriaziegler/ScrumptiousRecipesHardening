@@ -27,7 +27,7 @@ class RecipeDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context["rating_form"] = RatingForm()
         foods = []
-        for item in self.request.user.shopping_item.all():
+        for item in self.request.user.shopping_items.all():
             foods.append(item.food_item)
         context["food_in_shopping_list"] = foods
         return context
@@ -100,7 +100,7 @@ def create_item(request):
 @require_http_methods(["POST"])
 def delete_items(request):
     ShoppingItem.objects.filter(user=request.user).delete()
-    return redirect("shopping_item_list")
+    return redirect("shopping_items_list")
 
 
 # no html for this
