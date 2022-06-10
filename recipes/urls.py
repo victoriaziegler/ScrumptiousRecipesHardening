@@ -9,7 +9,7 @@ from recipes.views import (
     RecipeListView,
     ShoppingItemListView,
     create_item,
-    delete_item,
+    delete_items,
 )
 
 urlpatterns = [
@@ -25,5 +25,5 @@ urlpatterns = [
         name="shopping_item_list",
     ),
     path("shopping_items/create/", create_item, name="shopping_item_create"),
-    path("shopping_items/delete/", delete_item, name="shopping_item_delete"),
+    path("shopping_items/delete/", delete_items, name="shopping_item_delete"),
 ]

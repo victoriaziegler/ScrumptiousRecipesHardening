@@ -1,16 +1,16 @@
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators.http import require_http_methods
+from django.db import IntegrityError
+
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 from recipes.forms import RatingForm
 
-from recipes.models import Recipe, ShoppingItem
-
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-
+from recipes.models import Recipe, ShoppingItem, Ingredient
 
 
 class RecipeListView(ListView):
@@ -26,6 +26,10 @@ class RecipeDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["rating_form"] = RatingForm()
+        foods = []
+        for item in self.request.user.shopping_items.all():
+            foods.append(item.food_item)
+        context["food_in_shopping_list"] = foods
         return context
 
 
@@ -57,6 +61,9 @@ class ShoppingItemListView(LoginRequiredMixin, ListView):
     model = ShoppingItem
     template_name = "recipes/shopping_items/list.html"
 
+    def get_queryset(self):
+        return ShoppingItem.objects.filter(owner=self.request.user)
+
 
 def log_rating(request, recipe_id):
     if request.method == "POST":
@@ -72,12 +79,28 @@ def log_rating(request, recipe_id):
     return redirect("recipe_detail", pk=recipe_id)
 
 
-def create_item(request, shopping_item_id):
-    if request.method == "POST":
-            form = 
-    return redirect("recipe_detail", pk=recipe_id)
+@require_http_methods(["POST"])
+def create_item(request):
+    ingredient_id = request.POST.get("ingredient_id")
+    ingredient = Ingredient.objects.get(id=ingredient_id)
+    user = request.user
+    try:
+        ShoppingItem.objects.create(
+            food_item=ingredient.food,
+            user=user,
+        )
+    except IntegrityError:
+        pass
+    return redirect("recipe_detail", pk=ingredient.recipe.id)
 
 
-def delete_item():
+# no html for this
 
+
+@require_http_methods(["POST"])
+def delete_items(request):
+    ShoppingItem.objects.filter(user=request.user).delete()
     return redirect("shopping_item_list")
+
+
+# no html for this
