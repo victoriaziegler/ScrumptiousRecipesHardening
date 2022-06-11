@@ -38,7 +38,7 @@
       {% for ingredient in recipe.ingredients.all %}
       <tr>
         <td>{{ ingredient.amount }}</td>
-        <td>{{ ingredient.measure.name }}</td>
+        <td>{{ ingredients.measure.name }}</td>
         <td>{{ ingredient.food.name }}</td>
         <td>
           {% if ingredient.food not in food_in_shopping_list %}
