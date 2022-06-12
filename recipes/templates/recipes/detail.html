@@ -16,6 +16,11 @@
     Created on {{ recipe.created }} |
     Updated on {{ recipe.updated }}
   </p>
+  {% if recipe.servings %}
+  <p>
+    Serves {{ recipe.servings }}
+  </p>
+  {% endif %}
   <form method="post" action="{% url 'recipe_rating' recipe.id %}">
     {% csrf_token %}
     <div class="rating-form-grid">
