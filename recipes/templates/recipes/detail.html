@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load markdownify %}
+{% load resizer %}
 
 {% block content %}
 <main class="recipe-detail">
@@ -18,8 +19,12 @@
   </p>
   {% if recipe.servings %}
   <p>
-    Serves {{ recipe.servings }}
+    Serves {{ servings|default_if_none:recipe.servings }}
   </p>
+  <form method="GET">
+    <input required type="number" name="servings">
+    <button class="button">Resize</button>
+  </form>
   {% endif %}
   <form method="post" action="{% url 'recipe_rating' recipe.id %}">
     {% csrf_token %}
@@ -42,7 +47,7 @@
     <tbody>
       {% for ingredient in recipe.ingredients.all %}
       <tr>
-        <td>{{ ingredient.amount }}</td>
+        <td>{{ ingredient|resize_to:servings }}</td>
         <td>{{ ingredients.measure.name }}</td>
         <td>{{ ingredient.food.name }}</td>
         <td>

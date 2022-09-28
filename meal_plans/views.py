@@ -7,9 +7,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 
 
-# from django.contrib.auth.mixins import LoginRequiredMixin
-
-
 # Create your views here.
 class MealPlansListView(LoginRequiredMixin, ListView):
     model = MealPlans
